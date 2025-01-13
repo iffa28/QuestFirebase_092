@@ -11,6 +11,10 @@ object PenyediaViewModel{
         initializer {
             HomeViewModel(mhsApp().container.mahasiswaRepository)
         }
+
+        initializer {
+            InsertViewModel(mhsApp().container.mahasiswaRepository)
+        }
     }
 }
 
