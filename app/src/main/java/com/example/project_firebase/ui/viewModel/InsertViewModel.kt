@@ -31,7 +31,10 @@ class InsertViewModel(
             alamat = if (event.alamat.isNotEmpty()) null else "Alamat tidak boleh kosong",
             jenis_kelamin = if (event.jenis_kelamin.isNotEmpty()) null else "Jenis Kelamin tidak boleh kosong",
             kelas = if (event.kelas.isNotEmpty()) null else "Kelas tidak boleh kosong",
-            angkatan = if (event.angkatan.isNotEmpty()) null else "Angkatan tidak boleh kosong"
+            angkatan = if (event.angkatan.isNotEmpty()) null else "Angkatan tidak boleh kosong",
+            judul_skripsi = if (event.judul_skripsi.isNotEmpty()) null else "Judul Skripsi tidak boleh kosong",
+            dospemsatu = if (event.dospemsatu.isNotEmpty()) null else "Dosen Pembimbing 1 tidak boleh kosong",
+            dospemdua = if (event.dospemdua.isNotEmpty()) null else "Dosen Pembimbing 2 tidak boleh kosong",
         )
         uiEvent = uiEvent.copy(isEntryValid = errorState)
         return errorState.isValid()
@@ -82,11 +85,14 @@ data class FormErrorState(
     val alamat: String? = null,
     val jenis_kelamin: String? = null,
     val kelas: String? = null,
-    val angkatan: String? = null
+    val angkatan: String? = null,
+    val judul_skripsi: String? = null,
+    val dospemsatu : String? = null,
+    val dospemdua : String? = null
 ) {
     fun isValid(): Boolean {
         return nim == null && nama == null && alamat == null &&
-                jenis_kelamin == null && kelas == null && angkatan == null
+                jenis_kelamin == null && kelas == null && angkatan == null && judul_skripsi == null && dospemsatu == null && dospemdua == null
     }
 }
 
@@ -96,7 +102,10 @@ fun MahasiswaEvent.toMhsModel(): Mahasiswa = Mahasiswa(
     alamat = alamat,
     jenis_kelamin = jenis_kelamin,
     kelas = kelas,
-    angkatan = angkatan
+    angkatan = angkatan,
+    judul_skripsi = judul_skripsi,
+    dospemsatu = dospemsatu,
+    dospemdua = dospemdua
 )
 
 data class MahasiswaEvent(
@@ -105,5 +114,8 @@ data class MahasiswaEvent(
     val alamat: String = "",
     val jenis_kelamin: String = "",
     val kelas: String = "",
-    val angkatan: String = ""
+    val angkatan: String = "",
+    val judul_skripsi: String = "",
+    val dospemsatu : String = "",
+    val dospemdua : String = ""
 )
