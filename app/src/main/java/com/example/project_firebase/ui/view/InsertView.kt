@@ -2,6 +2,7 @@ package com.example.project_firebase.ui.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.project_firebase.model.Mahasiswa
 import com.example.project_firebase.ui.customWidget.CustomTopAppBar
 import com.example.project_firebase.ui.viewModel.FormErrorState
 import com.example.project_firebase.ui.viewModel.FormState
@@ -93,7 +97,7 @@ fun InsertMhsView(
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(padding)
-            .padding(16.dp)
+            .padding(10.dp)
             )
         {
             InsertBodyMhs(
@@ -103,7 +107,8 @@ fun InsertMhsView(
                     viewModel.updateState(updatedEvent)
                 },
                 onCLick = {
-                    if (viewModel.validateFields()) {
+                    if (viewModel.validateFields())
+                    {
                         viewModel.insertMhs()
                         //onNavigate
                     }
@@ -113,7 +118,6 @@ fun InsertMhsView(
         }
 
     }
-
 }
 
 @Composable
@@ -124,11 +128,10 @@ fun InsertBodyMhs(
     onCLick: () -> Unit,
     homeUiState: FormState
 ) {
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    LazyColumn(modifier = modifier,
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp))
+    { items(listOf(uiState)){
         FormMahasiswa(
             mahasiswaEvent = uiState.insertUiEvent,
             onValueChange = onValueChange,
@@ -152,6 +155,7 @@ fun InsertBodyMhs(
                 Text("Add")
             }
         }
+    }
     }
 }
 
@@ -198,7 +202,6 @@ fun FormMahasiswa(
             text = errorState.nim ?: "",
             color = Color.Red
         )
-        Spacer(modifier = Modifier.height(16.dp))
 
         Text(text = "Jenis Kelamin")
         Row(modifier = Modifier.fillMaxWidth()
@@ -243,8 +246,6 @@ fun FormMahasiswa(
             color = Color.Red
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
         Text(text = "Kelas")
         Row {
             kelas.forEach { kelas ->
@@ -280,6 +281,51 @@ fun FormMahasiswa(
         )
         Text(
             text = errorState.angkatan ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.judul_skripsi,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(judul_skripsi = it))
+            },
+            label = { Text("Judul Skripsi")},
+            isError = errorState.judul_skripsi != null,
+            placeholder = {Text("Masukkan Judul Skripsi")}
+        )
+        Text(
+            text = errorState.judul_skripsi ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dospemsatu,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(dospemsatu = it))
+            },
+            label = { Text("Dosen Pembimbing 1")},
+            isError = errorState.dospemsatu != null,
+            placeholder = {Text("Masukkan Dosen Pembimbing 1")}
+        )
+        Text(
+            text = errorState.dospemsatu ?: "",
+            color = Color.Red
+        )
+
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = mahasiswaEvent.dospemdua,
+            onValueChange = {
+                onValueChange(mahasiswaEvent.copy(dospemdua = it))
+            },
+            label = { Text("Dosen Pembimbing 2")},
+            isError = errorState.dospemdua != null,
+            placeholder = {Text("Masukkan Dosen Pembimbing 2")}
+        )
+        Text(
+            text = errorState.dospemdua ?: "",
             color = Color.Red
         )
 
